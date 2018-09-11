@@ -1,5 +1,5 @@
 {
-  "name": "ticket721-companion",
+  "name": "ticket721-event-scanner",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
