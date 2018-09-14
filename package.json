@@ -20,6 +20,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "ethereum-address": "0.0.4",
     "expo": "^27.0.1",
     "expo-env": "^1.1.1",
     "native-base": "^2.6.1",

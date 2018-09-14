@@ -7,12 +7,16 @@ import {StyleProvider} from 'native-base';
 import getTheme from './native-base-theme/components';
 import { createStackNavigator } from 'react-navigation';
 import {Home} from "./src/views/home";
+import {Creation} from "./src/views/home/creation";
 import { createNavigationReducer, createReactNavigationReduxMiddleware, reduxifyNavigator } from 'react-navigation-redux-helpers';
 
 const AppNavigator = createStackNavigator(
     {
         Home: {
             screen: Home
+        },
+        Creation: {
+            screen: Creation
         }
     },
     {
