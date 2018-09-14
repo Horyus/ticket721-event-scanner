@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "sdkVersion": "27.0.0",
+    "name": "Ticket721 Event Scanner",
+    "icon": "./assets/icon/icon.png",
+    "version": "0.0.1",
+    "slug": "ticket721-event-scanner",
+    "ios": {
+      "bundleIdentifier": "com.horyus.ticket721.eventscanner"
+    },
+    "android": {
+      "package": "com.horyus.ticket721.eventscanner"
+    }
+  }
+}

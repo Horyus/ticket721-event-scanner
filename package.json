@@ -9,7 +9,8 @@
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "react-native-scripts start",
+    "env": "expo-env --env=dev",
+    "start": "npm run env && react-native-scripts start",
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
@@ -20,6 +21,8 @@
   },
   "dependencies": {
     "expo": "^27.0.1",
+    "expo-env": "^1.1.1",
+    "native-base": "^2.6.1",
     "react": "16.3.1",
     "react-native": "~0.55.2",
     "react-navigation": "^2.11.2",
