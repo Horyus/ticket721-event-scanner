@@ -7,12 +7,15 @@ export const eventSchema = {
         name: {
             type: 'string'
         },
+        address: {
+            type: 'string'
+        },
         scanned: {
             type: 'array',
             items: {
-                type: 'string'
+                type: 'number'
             }
         }
     },
-    required: ['name']
+    required: ['name', 'address']
 };

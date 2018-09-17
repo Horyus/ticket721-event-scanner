@@ -21,14 +21,20 @@
   },
   "dependencies": {
     "ethereum-address": "0.0.4",
+    "ethers": "^3.0.29",
     "expo": "^27.0.1",
     "expo-env": "^1.1.1",
     "native-base": "^2.6.1",
+    "pouchdb-adapter-asyncstorage": "^6.4.1",
     "react": "16.3.1",
     "react-native": "~0.55.2",
     "react-navigation": "^2.11.2",
     "react-navigation-redux-helpers": "^2.0.5",
     "react-redux": "^5.0.7",
-    "redux": "^4.0.0"
+    "redux": "^4.0.0",
+    "redux-saga": "^0.16.0",
+    "rxdb": "7.7.1",
+    "rxjs": "6.2.2",
+    "util": "^0.11.0"
   }
 }

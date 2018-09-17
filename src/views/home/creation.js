@@ -2,9 +2,12 @@ import React from 'react';
 import {StyleSheet, View, Dimensions} from 'react-native';
 import {Container, Header, Left, Body, Title, Right, Button, Icon, Content, Form, Item, Label, Input, Text} from 'native-base';
 import {withNavigation} from 'react-navigation';
+import {connect} from 'react-redux';
+import {EventCreate} from "../../redux/event/event.actions";
 import { BarCodeScanner, Permissions, Camera } from 'expo';
 import {Vibration} from 'react-native';
 import EthAddr from 'ethereum-address';
+
 
 const styles = StyleSheet.create({
     title: {
@@ -52,6 +55,12 @@ export class _Creation extends React.Component {
     }
 
     checkForm() {
+        for (let idx = 0; idx < this.props.event.events.length; ++idx) {
+            if (this.state.address === this.props.event.events[idx].address) {
+                return 3;
+            }
+        }
+
         if (this.state.address !== '') {
             if (EthAddr.isChecksumAddress(this.state.address))
                 return 0;
@@ -67,7 +76,10 @@ export class _Creation extends React.Component {
 
         switch (check) {
             case 0:
-                button = <Button style={{width: Dimensions.get('window').width, justifyContent: 'center'}} primary block full>
+                button = <Button style={{width: Dimensions.get('window').width, justifyContent: 'center'}} primary block full onPress={() => {
+                    this.props.create(this.state.name, this.state.address);
+                    this.props.navigation.pop();
+                }}>
                     <Text style={{textAlign: 'center'}}>Create</Text>
                 </Button>;
                 break ;
@@ -79,6 +91,11 @@ export class _Creation extends React.Component {
             case 2:
                 button = <Button style={{width: Dimensions.get('window').width, justifyContent: 'center'}} danger block full>
                     <Text style={{textAlign: 'center'}}>Invalid Address</Text>
+                </Button>;
+                break ;
+            case 3:
+                button = <Button style={{width: Dimensions.get('window').width, justifyContent: 'center'}} danger block full>
+                    <Text style={{textAlign: 'center'}}>Event Already Added</Text>
                 </Button>;
                 break ;
             default:
@@ -124,4 +141,18 @@ export class _Creation extends React.Component {
     }
 }
 
-export const Creation = withNavigation(_Creation);
+const mapStateToProps = (state, ownProps) => {
+    return {
+        ...ownProps,
+        event: state.event
+    };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        ...ownProps,
+        create: (name, address) => {dispatch(EventCreate({name, address}))}
+    };
+};
+
+export const Creation = withNavigation(connect(mapStateToProps, mapDispatchToProps)(_Creation));

@@ -12,8 +12,8 @@
       "package": "com.horyus.ticket721.eventscanner"
     },
     "extra": {
-      "API_URL": "http://192.168.0.180:8080",
-      "BC_URL": "http://192.168.0.180:8545",
+      "API_URL": "http://172.20.10.3:8080",
+      "BC_URL": "http://172.20.10.3:8545",
       "T721HUB_ADDRESS": "0xD72bF69ef58467B7fe2b833A3850430b15a46B3a",
       "T721HUB_ABI": [
         {

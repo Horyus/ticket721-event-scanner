@@ -2,13 +2,22 @@ import React from 'react';
 import { Font} from 'expo';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider, connect } from 'react-redux';
-import { test } from "./src/redux/test.reducer";
 import {StyleProvider} from 'native-base';
 import getTheme from './native-base-theme/components';
 import { createStackNavigator } from 'react-navigation';
 import {Home} from "./src/views/home";
 import {Creation} from "./src/views/home/creation";
 import { createNavigationReducer, createReactNavigationReduxMiddleware, reduxifyNavigator } from 'react-navigation-redux-helpers';
+
+import createSagaMiddleware from 'redux-saga';
+import {fork, all} from "redux-saga/effects";
+
+import {eventReducers} from "./src/redux/event/event.reducers";
+import {eventSagas} from "./src/redux/event/event.sagas";
+import {EventLoad} from "./src/redux/event/event.actions";
+import {Scanner} from "./src/views/scanner";
+
+import Expo from 'expo';
 
 const AppNavigator = createStackNavigator(
     {
@@ -17,6 +26,9 @@ const AppNavigator = createStackNavigator(
         },
         Creation: {
             screen: Creation
+        },
+        Scanner: {
+            screen: Scanner
         }
     },
     {
@@ -30,9 +42,19 @@ const AppNavigator = createStackNavigator(
 const navReducer = createNavigationReducer(AppNavigator);
 
 const reducer = combineReducers({
-    test: test,
+    event: eventReducers,
     nav: navReducer
 });
+
+// Creating Saga Middleware instance
+const sagaMiddleware = createSagaMiddleware();
+
+// Creating Saga Combination of Application Sagas
+function* sagas() {
+    yield all([
+        fork(eventSagas)
+    ]);
+}
 
 const middleware = createReactNavigationReduxMiddleware("root", state => state.nav);
 
@@ -43,7 +65,11 @@ const mapStateToProps = (state) => ({
 
 const AppWithNavigationState = connect(mapStateToProps)(App);
 
-const Store = createStore(reducer, applyMiddleware(middleware));
+const Store = createStore(reducer, applyMiddleware(middleware, sagaMiddleware));
+
+sagaMiddleware.run(sagas);
+
+Store.dispatch(EventLoad());
 
 export default class Root extends React.Component {
     constructor(props) {

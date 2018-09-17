@@ -1,7 +1,9 @@
 import React from 'react';
 import { StyleSheet} from 'react-native';
-import {Container, Header, Left, Button, Icon, Body, Title, Right, Content} from 'native-base';
+import {connect} from 'react-redux';
+import {Container, Header, Left, Button, Icon, Body, Title, Right, Content, Text, ListItem, List} from 'native-base';
 import {withNavigation} from 'react-navigation';
+import {EventSelect} from "../../redux/event/event.actions";
 
 const styles = StyleSheet.create({
     title: {
@@ -12,7 +14,14 @@ const styles = StyleSheet.create({
         height: 70,
         borderBottomColor: '#eeeeee',
         borderBottomWidth: 1
-    }
+    },
+    listitem_title: {
+        fontFamily: 'RobotoLight'
+    },
+    listitem_text: {
+        fontFamily: 'RobotoThin'
+
+    },
 });
 
 export class _Home extends React.Component {
@@ -21,6 +30,21 @@ export class _Home extends React.Component {
     }
 
     render() {
+
+        const list_items = this.props.event.events.map((elem, idx) => {
+            return (
+                <ListItem thumbnail key={idx} onPress={() => {
+                    this.props.select(idx);
+                    this.props.navigation.navigate('Scanner');
+                }}>
+                    <Body>
+                    <Text style={styles.listitem_title}>{elem.name}</Text>
+                    <Text style={styles.listitem_text} note numberOfLines={1}>{elem.address}</Text>
+                    </Body>
+                </ListItem>
+            );
+        });
+
         return (
             <Container>
                 <Header style={styles.head} transparent>
@@ -35,9 +59,28 @@ export class _Home extends React.Component {
                         </Button>
                     </Right>
                 </Header>
+                <Content>
+                    <List>
+                        {list_items}
+                    </List>
+                </Content>
             </Container>
         )
     }
 }
 
-export const Home = withNavigation(_Home);
+const mapStateToProps = (state, ownProps) => {
+    return {
+        ...ownProps,
+        event: state.event
+    }
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        ...ownProps,
+        select: (idx) => (dispatch(EventSelect(idx)))
+    }
+};
+
+export const Home = withNavigation(connect(mapStateToProps, mapDispatchToProps)(_Home));
